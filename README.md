@@ -3,7 +3,7 @@ APNS.php
 
 Simple APNS Client for php. Works. Doesn't have 3589454 files and abstract classes in it.
 
-```
+```php
 require_once('APNSMessage.php');
 require_once('APNS.php');
 
