@@ -31,9 +31,9 @@ class Message {
     if ($randomSequence == 0)
       $randomSequence = mt_rand();
     
-	$this->setToken($token);
-	$this->realm = $realm;
-	
+    $this->setToken($token);
+    $this->realm = $realm;
+    
     $this->identifier = ++$randomSequence;
   }
   function setToken($token) {
@@ -42,14 +42,14 @@ class Message {
       return;
     }
     if (strlen($token) == 32) {
-  		$this->token = bin2hex($token);
-  	} else if (strlen($token)==64) {
-  		$this->token = $token;
-  	} else if (strlen(base64_decode($token)) == 32) {
-  		$this->token = bin2hex($token);
-  	} else {
-  		throw new Exception('Invalid APNS Token');
-  	}
+      $this->token = bin2hex($token);
+    } else if (strlen($token)==64) {
+      $this->token = $token;
+    } else if (strlen(base64_decode($token)) == 32) {
+      $this->token = bin2hex($token);
+    } else {
+      throw new Exception('Invalid APNS Token');
+    }
   }
   function to($token) {
     $copy = clone $this;

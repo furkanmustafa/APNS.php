@@ -135,7 +135,11 @@ Class Connection {
   }
   
   static function SendMessage(Message $message) {
-    $connection = self::Shared();
+    if ($message->realm) {
+      $connection = self::Shared([ 'identifier' => $message->realm ]);
+    } else {
+      $connection = self::Shared();
+    }
     $connection->send($message);
   }
   
