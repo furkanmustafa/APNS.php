@@ -106,7 +106,7 @@ Class Connection {
 
     if (!$this->connection) {
       if ($this->exceptions)
-        throw new Exception('Connection Failed');
+        throw new Exception("Connection Failed: [{$err}] $errstr");
       return false;
     }
 
