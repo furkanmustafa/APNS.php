@@ -9,6 +9,7 @@ class Message {
   const  IMMEDIATE            = 10;
   
   public $token               = null;
+  public $realm               = null;
   
   public $alert               = null;
   public $sound               = null;
@@ -25,17 +26,34 @@ class Message {
   public $expiresAt           = 0; // unixtime, 0 = never expires
   public $identifier          = 0; // will be set to a random number, override if you want to track status
   
-  function __construct($token = null) {
+  function __construct($token = null, $realm = null) {
     static $randomSequence = 0;
     if ($randomSequence == 0)
       $randomSequence = mt_rand();
     
-    $this->token = $token;
+	$this->setToken($token);
+	$this->realm = $realm;
+	
     $this->identifier = ++$randomSequence;
+  }
+  function setToken($token) {
+    if (!$token) {
+      $this->token = null;
+      return;
+    }
+    if (strlen($token) == 32) {
+  		$this->token = bin2hex($token);
+  	} else if (strlen($token)==64) {
+  		$this->token = $token;
+  	} else if (strlen(base64_decode($token)) == 32) {
+  		$this->token = bin2hex($token);
+  	} else {
+  		throw new Exception('Invalid APNS Token');
+  	}
   }
   function to($token) {
     $copy = clone $this;
-    $copy->token = $token;
+    $copy->setToken($token);
     return $copy;
   }
 
